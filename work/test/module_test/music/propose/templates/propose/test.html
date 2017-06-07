@@ -1,0 +1,159 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/earlyaccess/nanumpenscript.css">
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=MpEubC5VuaC6Yg4uKzZ_&submodules=geocoder"></script>
+<style>
+body{
+  background-color: #FFFFFF;
+}
+h1 {
+  font-size:50px;
+  margin:auto;
+  text-align:center;
+  color : #333333;
+  text-shadow: 3px 2px gray;
+}
+h2 {
+  margin:auto;
+  text-align:center;
+  color : #333333;
+  text-shadow : 2px 1px gray;
+}
+
+
+button {
+  display:block;
+  margin:auto;
+  text-align:center;
+}
+input {
+  display:block;
+  margin: auto;
+  width : 50%;
+  color : #333333;
+  text-align : center;
+}
+p{
+  margin:auto;
+  text-align:center;
+  color : #333333;
+  font-size:30px;
+}
+</style>
+</head>
+<body style="font-family: 'Nanum Pen Script';">
+<div>
+  <h1>MY TOWN MUSIC</h1>
+  <h2>장소에 어울리는 태그와 음악 그리고 더!</h2>
+  <div id="map" style="margin:auto;width:80%;height:400px;border:1px solid Gainsboro" title="지도에 위치를 클릭해 주세요!"></div>
+  <div id="input_area">
+    <input type="text" size="50" id="myField" value="" title="클릭한 위치가 표시됩니다. 직접 입력도 가능!"/>
+    <button onClick="hyper()" title="결과보기">!</button>
+  </div>
+  <div id="output_area">
+    <h2 title="동네 트렌드를 콕콕 집어내는 태그들!">Tag</h2>
+    <p id="proposal_tag"/>
+    <h2 title="지금 여기서 안 들어보면 후회할 음악들!">Track</h2>
+    <p id="proposal_track"/>
+    <h2 title="심심한 눈과 귀를 즐겁게 해줄 음악가들!">Artist</h2>
+    <p id="proposal_artist"/>
+    <h2 title="더 듣고 싶어할 당신을 위해 엄선한 앨범들!">Album</h2>
+    <p id="proposal_album"/>
+  </div>
+</div>
+</body>
+<script>
+var mapOptions = {
+center: new naver.maps.LatLng(37.4602630,126.9535980),
+        zoom: 10
+};
+var map = new naver.maps.Map('map', mapOptions);
+//click on the map
+var marker = new naver.maps.Marker({
+position: new naver.maps.LatLng(),
+map: map
+});
+naver.maps.Event.addListener(map, 'click', function(e){
+    marker.setPosition(e.coord);
+    var link;
+    naver.maps.Service.reverseGeocode(
+      {location: new naver.maps.LatLng(e.coord.lat(), e.coord.lng()),},
+      function(status, response) {
+      if(status !== naver.maps.Service.Status.OK){
+      return alert('Something Wrong!');
+      }
+      var result = response.result.items;
+      link= result[0]['address'];
+      parts=link.split(" ");
+      var i, go="";
+      for(i=0;i<parts.length;i++){
+        go += parts[i];
+        if(parts[i].slice(-1)=='동'||parts[i].slice(-1)=='읍'|| parts[i].slice(-1)=='면'){
+          document.getElementById('myField').value = go;
+          break;
+        }
+        else ;//go +=" ";
+      }
+      });
+});
+function hyper(){
+  var URL = "http://wlxyzlw.iptime.org:8008/address/"+document.getElementById('myField').value+"/proposal/";
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function(){
+    document.getElementById('proposal_tag').innerHTML="LOADING...";//TODO render in your favor
+    document.getElementById('proposal_track').innerHTML="LOADING...";//TODO render in your favor
+    document.getElementById('proposal_album').innerHTML="LOADING...";//TODO render in your favor
+    document.getElementById('proposal_artist').innerHTML="LOADING...";//TODO render in your favor
+
+    if(this.readyState == 4 && this.status == 200){
+      console.log("http GET success");
+      var obj = JSON.parse(this.responseText);
+      document.getElementById('proposal_tag').innerHTML="";//TODO render in your favor
+      document.getElementById('proposal_track').innerHTML="";//TODO render in your favor
+      document.getElementById('proposal_album').innerHTML="";//TODO render in your favor
+      document.getElementById('proposal_artist').innerHTML="";//TODO render in your favor
+      for(i=0;i<obj.length;i++){
+        //tag
+        if(i==0){
+          for(j=0;j<obj[i].length;j++)
+            document.getElementById('proposal_tag').innerHTML += obj[i][j] + '<br>';//TODO render in your favor
+        }
+        //track
+        else if(i==1){
+          for(j=0;j<obj[i].length;j++){
+            var s = obj[i][j][0]+'(은)는 '+obj[i][j][2]+'에 수록된 ';
+            if(obj[i][j][1])s+='타이틀 ';
+            document.getElementById('proposal_track').innerHTML += s + '곡이다.<br>'
+          }
+        }
+        //artist
+        else if(i==2){
+          for(j=0;j<obj[i].length;j++){
+            var s=obj[i][j][0]+'(은)는 '
+              if(obj[i][j][2]>100000000)s+='국내에 잘 알려진 유명 ';
+              else s+='국내에 잘 알려지지 않은 ';
+            if(obj[i][j][1])s+='남성 ';
+            else s+='여성 ';
+            document.getElementById('proposal_artist').innerHTML += s + '아티스트이다. <br>';//TODO render in your favor
+          }
+        }
+        //album
+        else if(i==3){
+          for(j=0;j<obj[i].length;j++)
+            document.getElementById('proposal_album').innerHTML += obj[i][j] + '(을)를 추천합니다!<br>';//TODO render in your favor
+        }
+        else console.log(obj[i])
+      }
+    }
+  }
+  xmlhttp.open("GET", URL, true); //true for asynchronous
+
+  xmlhttp.send();
+}
+</script>
+</html>
+
+
