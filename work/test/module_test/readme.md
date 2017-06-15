@@ -5,15 +5,14 @@
  이 중 가장 큰 영향을 미치는 harmony와 score를 여러 방식으로 조정해보면서 추천 알고리즘에 적절하게 반영되는지 확인한다.
 
 ## 실험방법
-  동일 디렉토리 안의 music/ 에서 서버를 작동한다
+
+  현재 디렉토리에서 다음 명령어를 실행한다.
+
+  <code> ./run_test.py </code>
+
+  기존의 DB를 초기화하고 localhost에서 port 8000번으로 모의 서버를 실행시켜 테스트를 진행한다. 필요에 맞게 host 및 port를 변경하면 된다.
   
-  이 music directory는 서비스되는 music 프로그램에서 실험에 불필요한 요소들을 배제하고 간략히 한 코드로 구성되어있다. 핵심 로직은 변하지 않았다.
-
-  <code>python3 manage.py runserver 0.0.0.0:[portnum]
-
-  다른 터미널을 열고
-
-  <code>python3 test.py [experiment directory] [url]</code>
+  이 모의 서버(/music/propose)는 서비스되는 music 프로그램에서 실험에 불필요한 요소들을 배제하고 간략히 한 코드로 구성되어있다. 핵심 로직은 변하지 않았다.
 
   * experiment1 : score는 같게, harmony를 다르게
  
