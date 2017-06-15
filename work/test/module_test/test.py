@@ -73,3 +73,4 @@ with open(path+"/output.txt", 'w') as out:
                 break
             data=requests.get(link+"address/"+line.split("\n")[0]+"/proposal")
             out.write(data.text+"\n")
+print("TEST SUCCESSFUL")
