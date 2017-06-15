@@ -10,8 +10,7 @@
 ## MTM Web 상세 설명
 ### 접속방법
 * <link>http://wlxyzlw.iptime.org:8008/test</link>
-### web page layout
-* //TODO(사진)
+
 ### 이용방법
 1. 노래 추천을 받고싶은 장소를 지도에서 찾아 클릭합니다.
 
