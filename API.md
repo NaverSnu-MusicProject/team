@@ -23,26 +23,26 @@
   * 기본값 : utf-8
   * 설명 : 검색할 주소의 동 단위 주소로, 띄어쓰기를 포함하지 않는다. ex) 서울특별시관악구신림동
   * 출력 결과 : 해당 행정주소에서의 추천 메타 정보를 가져온다.
-> [ 상위 순위 태그, 상위 순위 음악, 관련 아티스트 랜덤, 관련 앨범 랜덤 ]
-> 태그 = 태그 이름(string), size = 10
-> 음악 = [ 음악 이름(string), 타이틀 곡 여부(bool), 수록 앨범 이름(string) ], size = 10
-> 아티스트 = [ 아티스트 이름(string), 아티스트 성별(bool), 인기도(string)], size = 5
-> 앨범 = 앨범 이름(string), size = 5
+> [ 상위 순위 태그, 상위 순위 음악, 관련 아티스트 랜덤, 관련 앨범 랜덤 ]  
+> 태그 = 태그 이름(string), size = 10  
+> 음악 = [ 음악 이름(string), 타이틀 곡 여부(bool), 수록 앨범 이름(string) ], size = 10  
+> 아티스트 = [ 아티스트 이름(string), 아티스트 성별(bool), 인기도(string)], size = 5  
+> 앨범 = 앨범 이름(string), size = 5  
 
   * 에러 코드
->   __400__
->   __403__
+>   __400__  
+>   __403__  
 
 * 예시 코드
-> function API_example(){
->   var URL = "http://wlxyzlw.iptime.org:8008/address/서울특별시관악구신림동/proposal/";
->   var xmlhttp = new XMLHttpRequest();
->   xmlhttp.onreadystatechange = function(){
->     if(this.readyState == 4 && this.status == 200){
->       var obj = JSON.parse(this.responseText);>
->       /*Do Something*/
->     }
->   }
->   xmlhttp.open("GET", URL, true);
->   xmlhttp.send();
-> }
+> function API_example(){  
+>   var URL = "http://wlxyzlw.iptime.org:8008/address/서울특별시관악구신림동/proposal/";  
+>   var xmlhttp = new XMLHttpRequest();  
+>   xmlhttp.onreadystatechange = function(){  
+>     if(this.readyState == 4 && this.status == 200){  
+>       var obj = JSON.parse(this.responseText);>  
+>       /*Do Something*/  
+>     }  
+>   }  
+>   xmlhttp.open("GET", URL, true);  
+>   xmlhttp.send();  
+> }  
