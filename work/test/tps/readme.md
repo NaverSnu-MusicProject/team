@@ -10,10 +10,11 @@
 
 2. 프로그램의 코드와 구성을 다음과 같이 바꾸어가면서 측정한다
 
-  experiment1 : 전체에 대한 tps 측정
-  experiment2 : view 제거
-  experiment3 : core logic 제거
- 이미 experiment3 단계에서 충분한 TPS를 보여주고, 툴의 한계상 이 이하의 단계는 생략하였다.
+  * experiment1 : 전체에 대한 tps 측정
+  * experiment2 : view 제거
+  * experiment3 : core logic 제거
+
+(이미 experiment3 단계에서 충분한 TPS를 보여주고, 툴의 한계상 이 이하의 단계는 생략하였다.)
 
 ## 실험결과 및 해석
 
